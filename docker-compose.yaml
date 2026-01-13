@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  vote:
+    image: yourdockerhub/vote-app:latest
+    ports:
+      - "5000:80"
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+
+  result:
+    image: yourdockerhub/result-app:latest
+    ports:
+      - "5001:80"
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:alpine
+
