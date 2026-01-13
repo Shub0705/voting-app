@@ -22,3 +22,24 @@ services:
   redis:
     image: redis:alpine
 
+prometheus:      
+    image: prom/prometheus
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - node-exporter
+
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - "9100:9100"
+    pid: "host"
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
